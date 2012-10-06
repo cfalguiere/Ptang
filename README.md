@@ -1,4 +1,4 @@
 Ptang
 ============
 
-analysis tool for performance test results
+Analysis tool for performance test results
