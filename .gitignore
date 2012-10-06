@@ -1,0 +1,9 @@
+*jar
+/lib/
+/classes/
+.lein-deps-sum
+*/tmp/
+*/classes/
+*/lib/
+.idea
+.DS_Store
