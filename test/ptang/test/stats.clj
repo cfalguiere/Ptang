@@ -18,8 +18,8 @@
 ;    (is (= 5.0 (:max result)))
 ;    ))
 
-;;; assumes that incanter computation is correct. Only test the data structure
-(fact "perf summary when 2 lines and both values are 5.0"
+;;; assumes that incanter functions are correct. Only test the data structure
+(fact "response time summary when 2 lines and both values are 5.0"
       (let [ds (incanter/dataset [:t] [{:t 5}{:t 5}] )]
-	(perf-summary ds)  =>
+	(response-time-summary ds)  =>
 	{:count 2 :mean 5.0 :sd 0.0 :min 5.0 :q95 5.0 :max 5.0}))
