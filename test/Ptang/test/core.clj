@@ -1,4 +1,4 @@
-(ns Ptang.test.core
-  (:use [Ptang.core])
+(ns ptang.test.core
+  (:use [ptang.core])
   (:use [clojure.test]))
 

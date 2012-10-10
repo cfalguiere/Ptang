@@ -1,1 +1,1 @@
-(ns Ptang.core)
+(ns ptang.core)
