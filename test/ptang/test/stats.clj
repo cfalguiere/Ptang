@@ -3,21 +3,6 @@
   (:use [midje.sweet])
   (:require [incanter.core :as incanter]))
 
-;(deftest perf-summary-test
-;  (let [ ds (incanter/dataset [:t] [{:t 5}{:t 5}] )
-;	result (perf-summary ds)]
-;    (println ds)
-;    (println result)
-;    (is (not (= nil result)))
-;    (is (= true (map? result)))
-;    (is (= 2 (:count result)))
-;    (is (= 5.0 (:mean result)))
-;    (is (= 0.0 (:sd result)))
-;    (is (= 5.0 (:min result)))
-;    (is (= 5.0 (:q95 result)))
-;    (is (= 5.0 (:max result)))
-;    ))
-
 (fact "run summary when 2 lines and both are success"
       (let [ds (incanter/dataset [:t :s :rc]
 				 [ {:t 5 :s true :rc 200}
