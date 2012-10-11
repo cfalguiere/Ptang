@@ -5,13 +5,13 @@
   (:use [incanter.charts :only [bar-chart histogram time-series-plot add-lines set-stroke-color set-stroke]]))
 
 (defn run-summary [ds]
-  (let [ assertSuccessCondition {:s true}
+  (let [ assertSuccessCondition {:s "true"}
 	httpSuccessCondition {:rc {:$in #{200 304}}}
 	assertSuccess ($where assertSuccessCondition ds)
 	httpSuccess ($where httpSuccessCondition ds)
 	success ($where (merge assertSuccessCondition httpSuccessCondition)  ds)
 	allCount (nrow ds)] 
-  { :count 2
+  { :count allCount
    :errorCount (- allCount (nrow success))
    :assertErrorCount (- allCount (nrow assertSuccess))
    :httpErrorCount (- allCount (nrow httpSuccess)) }
