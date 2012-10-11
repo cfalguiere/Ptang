@@ -1,6 +1,8 @@
 (ns ptang.core
   (:use [ptang.core])
   (:use [ptang.stats]) 
+  (:use [ptang.charts]) 
+  (:use [incanter.core :only [view]])
   (:use [incanter.io :only [read-dataset]]))
 
 (defn -main [& args]
@@ -12,4 +14,9 @@
     (println (response-time-summary ds))
     (println "HTTP Code Summary")
     (http-codes-summary ds)
+    
+    (view (perf-time-series-plot ds 3000) )
+    (view (perf-histogram ds) )
+    (view (count-bar-chart ds :lb))
+    (view (mean-time-bar-chart ds :lb))
     ))
