@@ -1,8 +1,6 @@
 (ns ptang.stats
-  (:use [incanter.core :only [$ $where $data $group-by nrow with-data col-names sel view $rollup]])
-  (:use [incanter.io :only [read-dataset]])
-  (:use [incanter.stats :only [mean sd quantile]])
-  (:use [incanter.charts :only [bar-chart histogram time-series-plot add-lines set-stroke-color set-stroke]]))
+  (:use [incanter.core :only [$ $where nrow with-data $data col-names $rollup]])
+  (:use [incanter.stats :only [mean sd quantile]]))
 
 (defn run-summary [ds]
   (let [ assertSuccessCondition {:s "true"}
