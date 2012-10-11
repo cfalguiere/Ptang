@@ -1,5 +1,5 @@
 (ns ptang.stats
-  (:use [incanter.core :only [$ $where $data nrow with-data sel view $rollup]])
+  (:use [incanter.core :only [$ $where $data $group-by nrow with-data col-names sel view $rollup]])
   (:use [incanter.io :only [read-dataset]])
   (:use [incanter.stats :only [mean sd quantile]])
   (:use [incanter.charts :only [bar-chart histogram time-series-plot add-lines set-stroke-color set-stroke]]))
@@ -21,3 +21,7 @@
   (zipmap [ :count :mean :sd :min :q95 :max]
 	  (flatten (with-data ($ :t ds)
 	    [ (count $data) (mean $data) (sd $data) (quantile $data :probs[0 0.95 1]) ] )))) 
+
+(defn http-codes-summary [ds]
+  (col-names ($rollup count :t :rc ds) [:code :count]))
+    
