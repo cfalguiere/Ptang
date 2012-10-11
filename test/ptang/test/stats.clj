@@ -37,7 +37,7 @@
 	(response-time-summary ds)  =>
 	{:count 2 :mean 5.0 :sd 0.0 :min 5.0 :q95 5.0 :max 5.0}))
 
-(fact "http codes summary when 2 lines and different codes"
+(fact "http codes summary when 2 code 200 and 1 code 500"
       (let [ds (incanter/dataset [:rc]
 				 [ {:rc 200}
 				   {:rc 200}
