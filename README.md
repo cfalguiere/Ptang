@@ -32,12 +32,14 @@ Check core.clj for a sample script
     	(view (mean-time-bar-chart ds :lb))
     	))
 
-To run the sample
+To run the sample :
 * clone the project
 * move to ClojureDSL/Ptang
 * run core.clj
+
 	lein run
-* alternatively, run a REPL and analyze the dataset interactively
+
+Alternatively, run a REPL and analyze the dataset interactively
 
 	lein repl
 	REPL started; server listening on localhost port 10603
