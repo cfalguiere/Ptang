@@ -1,10 +1,11 @@
 pom.xml
 *jar
-/lib/
-/classes/
+lib/
+classes/
 target/
 bin/
 .lein-failures
 .lein-deps-sum
 .DS_Store
+.settings/
 
