@@ -20,15 +20,15 @@ A set of clojure functions based on Incanter to analyse JMeter's test output, co
 
 Check core.clj for a sample script
 
-(defn -main [& args]
-  (let [filename "test-resources/readings.csv"
-	ds (read-dataset filename :header true) ]
-    (println "Response Time Summary")
-    (println (response-time-summary ds))
-    
-    (view (perf-time-series-plot ds 3000) )
-    (view (mean-time-bar-chart ds :lb))
-    ))
+	(defn -main [& args]
+  		(let [filename "test-resources/readings.csv"
+			ds (read-dataset filename :header true) ]
+    	(println "Response Time Summary")
+    	(println (response-time-summary ds))
+    	
+    	(view (perf-time-series-plot ds 3000) )
+    	(view (mean-time-bar-chart ds :lb))
+    	))
 
 License
 -------
