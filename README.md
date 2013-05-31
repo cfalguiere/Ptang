@@ -33,6 +33,6 @@ Check core.clj for a sample script
 License
 -------
 
-Copyright (C) 2012 FIXME
+Copyright (C) 2012 
 
 Distributed under the Eclipse Public License, the same as Clojure.
