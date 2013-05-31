@@ -38,6 +38,7 @@ To run the sample
 * run core.clj
 	lein run
 * alternatively, run a REPL and analyze the dataset interactively
+
 	lein repl
 	REPL started; server listening on localhost port 10603
 	ptang.core=> (def filename "test-resources/readings.csv")
