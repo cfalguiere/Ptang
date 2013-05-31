@@ -1,7 +1,7 @@
 Ptang
 =====
 
-Analysis tool for performance test results
+Analysis tool for performance test outputs (namely JMeter)
 
 Clojure DSL
 -----------
