@@ -18,7 +18,7 @@ A set of clojure functions based on Incanter to analyse JMeter's test output, co
 * count-bar-chart : draw a bar chart of the number of samples grouped by a factor (e.g. the label)
 * mean-time-bar-chart : draw a bar chart of the mean time grouped by a factor (e.g. the label)
 
-![a sample chart](https://github.com/cfalguiere/Ptang/wiki/ClojureDSL/images/ResponseTimeOverTime.png)
+![a sample chart](https://github.com/cfalguiere/Ptang/wiki/PtangDSLClojure/images/ResponseTimeOverTime.png)
 
 Check core.clj for a sample script
 
@@ -52,7 +52,7 @@ Alternatively, run a REPL and analyze the dataset interactively
 	nil
 	ptang.core=> (view (mean-time-bar-chart ds :lb))
 	
-[Check full documentation](https://github.com/cfalguiere/Ptang/wiki/ClojureDSL)
+[Check full documentation](https://github.com/cfalguiere/Ptang/wiki/PtangDSLClojure)
 
 License
 -------
