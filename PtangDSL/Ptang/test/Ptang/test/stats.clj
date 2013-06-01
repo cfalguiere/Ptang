@@ -2,6 +2,7 @@
   (:use [ptang.filters])
   (:use [ptang.stats])
   (:use [midje.sweet])
+  (:use [clj-time.core :only [date-time]])
   (:require [incanter.core :as incanter] [clj-time.coerce :as coerce]))
 
 ;; fixtures
@@ -60,6 +61,18 @@
 	(response-time-summary ds asserted-filter)  =>
 	{:count 2 :mean 5.0 :sd 0.0 :min 5.0 :q95 5.0 :max 5.0}))
 
+(fact "response time summary with filter and interval"
+    (let [ds (incanter/dataset [:ts :s :rc :t] [ { :ts 1330419301862 :s "true" :rc 200 :t 3000} ;;before interval
+                                          { :ts 1330419401862 :s "true" :rc 200 :t 5}
+                                          { :ts 1330419501862 :s "true" :rc 500 :t 0} ;; ko
+                                          { :ts 1330419601862 :s "true" :rc 200 :t 5}
+                                          {:ts 1330421079091 :s "true" :rc 200 :t 5}
+                                          {:ts 1330421179091 :s "true" :rc 200 :t 100} ]) ;;after interval
+           interval (from-to-condition (date-time 2012 2 28 8 56 ) 
+                                                 (date-time 2012 2 28 9 26))  ]
+	(response-time-summary  ds asserted-filter interval)  =>
+	{:count 3 :mean 5.0 :sd 0.0 :min 5.0 :q95 5.0 :max 5.0}))
+
 (fact "http codes summary when 2 code 200 and 1 code 500"
       (let [ds (incanter/dataset [:rc]
 				 [ {:rc 200}
@@ -81,7 +94,8 @@
      (coerce/to-string (:end-date summary)) => "2012-02-28T09:26:19.091Z"
      (:duration-mn summary)  => 31
      ))
-       
+   
+;; last sample is not relevant
 (fact "duration summary with filter"
      (let [ds (incanter/dataset [:ts :s :rc] [ { :ts min-ts :s "true" :rc 200}
                                           { :ts (+ min-ts 100000) :s "true" :rc 200}

@@ -23,9 +23,9 @@
 		  (zipmap [ :count :mean :sd :min :q95 :max]
 			  (flatten (with-data ($ :t ds)
 			    [ (count $data) (mean $data) (sd $data) (quantile $data :probs[0 0.95 1]) ] )))) 
-  ( [ds filter-fct] 
-    (println (str "response-time-summary:  applying filter " filter-fct))
-    (response-time-summary  (filter-fct ds) )))
+  ( [ds filter-fct & more] 
+    (println (str "response-time-summary:  applying filter " filter-fct more))
+    (response-time-summary  (filter-fct ds (first more) ) ))) ;; TODO mouaih ???
 
 ;; show the number of samples by HTTP code
 (defn http-codes-summary [ds]
