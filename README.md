@@ -1,15 +1,15 @@
 Ptang
 =====
 
-Ptang is a set of tool for performance test management and analyzes.
+Ptang is a set of tools for performance test management and analyzes.
 
 The project doesn't stick to JMeter. However, only JMeter is available at the moment. 
 
 Ptang stands for Performance Test Analyzes N' Graphs. 
-There are very few names with letters PT. 
-[P'tang](http://wiki.lspace.org/mediawiki/index.php/P'tang_P'tang) is a minor god in [Discworld](http://en.wikipedia.org/wiki/Discworld) written by [Terry Pratchett](http://en.wikipedia.org/wiki/Terry_Pratchett).
- 
+It has been tricky to find a name. There are very few names with letters PT. 
+The project's name is inspired from [P'tang P'tang](http://wiki.lspace.org/mediawiki/index.php/P'tang_P'tang)  a minor god in [Discworld](http://en.wikipedia.org/wiki/Discworld) written by [Terry Pratchett](http://en.wikipedia.org/wiki/Terry_Pratchett).
 
+ 
 Ptang DSL
 -----------
 Ptang DSL is a set of functions based on Incanter and Clojure to analyze JMeter's test output, compute statistics and generate charts.
