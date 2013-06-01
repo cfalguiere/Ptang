@@ -14,7 +14,7 @@ The DSL doesn't stick to JMeter. The goal is to provide the same tool and analyz
 
 Here is a sample chart
 
-![a sample chart](https://github.com/cfalguiere/Ptang/wiki/PtangDSLClojure/images/ResponseTimeOverTime.png width="250" height="190")
+<img src="https://github.com/cfalguiere/Ptang/wiki/PtangDSLClojure/images/ResponseTimeOverTime.png" width="250" height="190" />
 
 Incanter charts rely on JFreeChart. The chart viewer lets you edit some attributes (title, etc), zoom in and out, and save the chart as an image.
 
