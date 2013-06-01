@@ -56,7 +56,6 @@
 (fact "duration summary"
      (let [ds (incanter/dataset [:ts] [ { :ts min-ts} {:ts max-ts } ]) 
            summary (duration-summary ds)]
-      (println "duration summary" summary)
      (:start-ts summary)  =>	min-ts 
      (:end-ts summary)  =>	max-ts 
      (:duration-ms summary)  => 1877229
