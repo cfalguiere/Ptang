@@ -1,4 +1,5 @@
 (ns ptang.stats
+  (:use [ptang.filters])
   (:use [incanter.core :only [$ $where nrow with-data $data col-names $rollup dataset?]])
   (:use [incanter.stats :only [mean sd quantile]])
   (:require [clj-time.coerce :as coerce] [clj-time.core :as clj-time]))
@@ -19,10 +20,14 @@
 
 ;; show the response time statistics (mean, sd, min, max, quantile 95)
 ;; TODO filter out success
-(defn response-time-summary [ds]
-  (zipmap [ :count :mean :sd :min :q95 :max]
-	  (flatten (with-data ($ :t ds)
-	    [ (count $data) (mean $data) (sd $data) (quantile $data :probs[0 0.95 1]) ] )))) 
+(defn response-time-summary 
+  ( [ds] 
+		  (zipmap [ :count :mean :sd :min :q95 :max]
+			  (flatten (with-data ($ :t ds)
+			    [ (count $data) (mean $data) (sd $data) (quantile $data :probs[0 0.95 1]) ] )))) 
+  ( [ds filter-fct] 
+    (println (str "response-time-summary:  applying filter " filter-fct))
+    (response-time-summary  (filter-fct ds) )))
 
 ;; show the number of samples by HTTP code
 (defn http-codes-summary [ds]

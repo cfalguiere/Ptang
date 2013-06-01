@@ -1,4 +1,5 @@
 (ns ptang.test.stats
+  (:use [ptang.filters])
   (:use [ptang.stats])
   (:use [midje.sweet])
   (:require [incanter.core :as incanter] [clj-time.coerce :as coerce]))
@@ -40,6 +41,13 @@
 (fact "response time summary when 2 lines and both values are 5.0"
       (let [ds (incanter/dataset [:t] [{:t 5}{:t 5}] )]
 	(response-time-summary ds)  =>
+	{:count 2 :mean 5.0 :sd 0.0 :min 5.0 :q95 5.0 :max 5.0}))
+
+(fact "response time summary with filter when 3 lines and 1 error"
+      (let [ds (incanter/dataset [:t :s :rc] [{:t 5 :s "true" :rc 200} 
+                                              {:t 5 :s "true" :rc 200}
+                                              {:t 0 :s "false" :rc 200}] )]
+	(response-time-summary ds asserted-filter)  =>
 	{:count 2 :mean 5.0 :sd 0.0 :min 5.0 :q95 5.0 :max 5.0}))
 
 (fact "http codes summary when 2 code 200 and 1 code 500"

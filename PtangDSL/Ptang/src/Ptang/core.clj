@@ -13,6 +13,7 @@
     
     (pretty-print-summary "Run Summary" (run-summary ds))
     (pretty-print-summary "Response Time Summary" (response-time-summary ds))
+    (pretty-print-summary "Response Time Summary" (response-time-summary ds asserted-filter))
     (pretty-print-summary "HTTP Code Summary" (http-codes-summary ds))
     (pretty-print-summary "Duration" (duration-summary ds)) 
     
