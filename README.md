@@ -34,7 +34,7 @@ Check core.clj for a sample script
 
 To run the sample :
 * clone the project
-* move to ClojureDSL/Ptang
+* move to PtangDSL/Ptang
 * run core.clj
 
 	lein run
