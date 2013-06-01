@@ -52,7 +52,7 @@ Alternatively, run a REPL and analyze the dataset interactively
 	nil
 	ptang.core=> (view (mean-time-bar-chart ds :lb))
 	
-[Check full documentation](https://github.com/cfalguiere/Ptang/wiki/PtangDSLClojure)
+[Check full documentation](https://github.com/cfalguiere/Ptang/wiki/PtangDSL)
 
 License
 -------
