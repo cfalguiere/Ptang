@@ -3,7 +3,7 @@ Ptang DSL
 
 Overview 
 --------
-Ptang DSL is a set of Clojure functions based on Incanter and Clojure to analyze JMeter's test output, compute statistics and generate charts.
+Ptang DSL is a set of functions based on Incanter and Clojure to analyze JMeter's test output, compute statistics and generate charts.
 
 Examples of functions provided are listed below 
 - load a JMeter test output
@@ -13,7 +13,8 @@ Examples of functions provided are listed below
 The DSL doesn't stick to JMeter. The goal is to provide the same tool and analyzes whatever the source is. However, only JMeter source is available at the moment. 
 
 Here is a sample chart
-![a sample chart](https://github.com/cfalguiere/Ptang/wiki/PtangDSLClojure/images/ResponseTimeOverTime.png)
+
+![a sample chart](https://github.com/cfalguiere/Ptang/wiki/PtangDSLClojure/images/ResponseTimeOverTime.png width="250" height="190")
 
 Incanter charts rely on JFreeChart. The chart viewer lets you edit some attributes (title, etc), zoom in and out, and save the chart as an image.
 
