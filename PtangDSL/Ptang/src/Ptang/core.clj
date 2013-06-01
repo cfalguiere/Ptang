@@ -14,6 +14,8 @@
     (println (response-time-summary ds))
     (println "HTTP Code Summary")
     (http-codes-summary ds)
+    (println "Duration")
+    (println (duration-summary ds)) 
     
     (view (perf-time-series-plot ds) )
     (view (perf-time-series-plot ds 3000) )
