@@ -16,10 +16,10 @@
    :errorCount (- allCount (nrow success))
    :assertErrorCount (- allCount (nrow assertSuccess))
    :httpErrorCount (- allCount (nrow httpSuccess)) }
-  )) 
+  )) ;;TODO use filters
 
 ;; show the response time statistics (mean, sd, min, max, quantile 95)
-;; TODO filter out success
+;; may use an optional filter (check filters.clj)
 (defn response-time-summary 
   ( [ds] 
 		  (zipmap [ :count :mean :sd :min :q95 :max]
