@@ -13,7 +13,7 @@
 				 [ { :s "true" :rc 200}
 				   {:s "true" :rc 200}]) ]
 	(run-summary ds)  =>
-	{:count 2 :errorCount 0 :assertErrorCount 0 :httpErrorCount 0}))
+	{:count 2 :successCount 2 :errorCount 0 :httpErrorCount 0 :assertionErrorCount 0 :durationLimitErrorCount 0}))
 
 (fact "run summary when 2 lines and 1 is an assert failure"
       (let [ds (incanter/dataset [:s :rc]
@@ -21,21 +21,31 @@
 				   {:s "true" :rc 200} 
 				   {:s "false" :rc 200}]) ]
 	(run-summary ds)  =>
-	{:count 3 :errorCount 1 :assertErrorCount 1 :httpErrorCount 0}))
+	{:count 3 :successCount 2 :errorCount 1 :httpErrorCount 0 :assertionErrorCount 1 :durationLimitErrorCount 0}))
 
 (fact "run summary when 2 lines and 1 is an http failure"
       (let [ds (incanter/dataset [:s :rc]
 				 [ {:s "true" :rc 200}
 				   {:s "true" :rc 500}]) ]
 	(run-summary ds)  =>
-	{:count 2 :errorCount 1 :assertErrorCount 0 :httpErrorCount 1}))
+	{:count 2 :successCount 1 :errorCount 1 :httpErrorCount 1 :assertionErrorCount 0 :durationLimitErrorCount 0}))
 
 (fact "run summary when 2 lines and 1 is an http failure and an assert failure"
       (let [ds (incanter/dataset [:s :rc]
 				 [ {:s "true" :rc 200}
 				   {:s "false" :rc 500}]) ]
 	(run-summary ds)  =>
-	{:count 2 :errorCount 1 :assertErrorCount 1 :httpErrorCount 1}))
+	{:count 2 :successCount 1 :errorCount 1 :httpErrorCount 1 :assertionErrorCount 1 :durationLimitErrorCount 0}))
+
+(fact "run summary when 4 lines and each kind of failure"
+      (let [ds (incanter/dataset [:t :s :rc]
+				 [ {:t 300 :s "true" :rc 200}  ;; ok
+				   {:t 300 :s "false" :rc 500}
+				   {:t 300 :s "false" :rc 200}
+				   {:t 30000 :s "true" :rc 200}
+       ]) ]
+	(run-summary ds)  =>
+	{:count 4 :successCount 1 :errorCount 3 :httpErrorCount 1 :assertionErrorCount 2 :durationLimitErrorCount 1}))
 
 ;;; assumes that incanter functions are correct. Only test the data structure
 (fact "response time summary when 2 lines and both values are 5.0"

@@ -6,17 +6,15 @@
 
 ;; show the total number of samples, number of errors and error cause (assertion, http code)
 (defn run-summary [ds]
-  (let [ assertSuccessCondition {:s "true"}
-	httpSuccessCondition {:rc {:$in #{200 304}}}
-	assertSuccess ($where assertSuccessCondition ds)
-	httpSuccess ($where httpSuccessCondition ds)
-	success ($where (merge assertSuccessCondition httpSuccessCondition)  ds)
-	allCount (nrow ds)] 
+  (let [ 	allCount (nrow ds)
+        successCount (success-filter ds)] 
   { :count allCount
-   :errorCount (- allCount (nrow success))
-   :assertErrorCount (- allCount (nrow assertSuccess))
-   :httpErrorCount (- allCount (nrow httpSuccess)) }
-  )) ;;TODO use filters
+   :successCount  (nrow successCount) 
+   :errorCount (- allCount (nrow successCount)) 
+   :httpErrorCount (- allCount (nrow ($where httpSuccessCondition ds))) 
+   :assertionErrorCount (- allCount (nrow ($where assertSuccessCondition ds)))
+   :durationLimitErrorCount (- allCount (nrow ($where durationLimitSuccessCondition ds))) }
+  )) 
 
 ;; show the response time statistics (mean, sd, min, max, quantile 95)
 ;; may use an optional filter (check filters.clj)
