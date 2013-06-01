@@ -20,6 +20,7 @@ Incanter charts rely on JFreeChart. The chart viewer lets you edit some attribut
 Getting Started
 ----------------
 The folder [Ptang](Ptang) is a lein project
+TODO link to Lein getting started
 
 To start analyzing your test output 
 * clone the [git repository Ptang] (https://github.com/cfalguiere/Ptang)
