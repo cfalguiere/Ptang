@@ -1,4 +1,5 @@
 (ns ptang.charts
+  (:use [ptang.aggregators])
   (:use [incanter.core :only [$ $data with-data sel view $rollup]])
   (:use [incanter.stats :only [mean]])
   (:use [incanter.charts :only [bar-chart histogram time-series-plot add-lines set-stroke-color set-stroke]]))
@@ -49,6 +50,21 @@
       (.setSeriesOutlineStroke renderer 0 (java.awt.BasicStroke. 2))
     plot)
     )
+
+
+;; draw a bar chart of the output of the function grouped by a factor (e.g. the label)
+;; available summary-fct are defined in $rollup documentation http://clojuredocs.org/incanter/incanter.core/$rollup
+;; aggregator function defined in aggregators should work as well
+(defn horizontal-bar-chart [ds summary-fct factor] 
+  (doto
+      (bar-chart factor :t :vertical false
+			 :title (str (summary-name summary-fct)  " by " (name factor))
+			 :x-label (name factor)
+			 :y-label nil
+			 :data  ($rollup summary-fct :t factor ds))
+    (set-stroke-color (java.awt.Color. 121 209 24) :series 0) ;;TODO name colors green
+    ))
+
 
 ;; draw a bar chart of the number of samples grouped by a factor (e.g. the label)
 (defn count-bar-chart [ds factor ] ;;TODO function factorization

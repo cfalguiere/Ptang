@@ -1,4 +1,5 @@
-(ns Ptang.test.charts
+(ns ptang.test.charts
+  (:use [ptang.aggregators])
   (:use [ptang.charts])
   (:use [midje.sweet])
   (:use [incanter.io :only [read-dataset]])
@@ -23,3 +24,11 @@
 ;; only checks whether an non nil is returned
 (fact "count-bar-chart"
       (count-bar-chart  ds-fixture :lb)  => truthy)
+
+;; only checks whether an non nil is returned
+(fact "horizontal-bar-chart with max"
+      (horizontal-bar-chart  ds-fixture :max :lb)  => truthy)
+
+;; only checks whether an non nil is returned
+(fact "horizontal-bar-chart with custom function"
+      (horizontal-bar-chart  ds-fixture q95 :lb)  => truthy)

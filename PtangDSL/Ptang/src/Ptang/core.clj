@@ -2,6 +2,7 @@
   (:use [ptang.core])
   (:use [ptang.stats]) 
   (:use [ptang.charts]) 
+  (:use [ptang.aggregators]) 
   (:use [incanter.core :only [view]])
   (:use [incanter.io :only [read-dataset]]))
 
@@ -22,4 +23,6 @@
     (view (perf-histogram ds) )
     (view (count-bar-chart ds :lb))
     (view (mean-time-bar-chart ds :lb))
+    (view (horizontal-bar-chart ds :max :lb))
+    (view (horizontal-bar-chart ds q95 :lb))
     ))
