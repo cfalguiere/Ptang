@@ -1,23 +1,33 @@
 Ptang DSL
 =========
 
-A set of clojure functions based on Incanter to analyse JMeter's test output, compute statistics and generate charts. 
+Overview 
+--------
+Ptang DSL is a set of Clojure functions based on Incanter and Clojure to analyze JMeter's test output, compute statistics and generate charts.
 
-Ptang DSL
------------
+Examples of functions provided are listed below 
+- load a JMeter test output
+- compute summaries such as number of samples and samples rate, number and cause of errors, response time statistics (min, mean, sd, quantile 95, max)
+- generate usual charts such as response time over time, bar chart of samples counts for each sample label, ...
 
-* read-dataset : read the test output as a csv file (Incanter function)
+The DSL doesn't stick to JMeter. The goal is to provide the same tool and analyzes whatever the source is. However, only JMeter source is available at the moment. 
 
-* run-summary : show the total number of samples, number of errors and error cause (assertion, HTTP code)
-* response-time-summary : show the response time statistics (mean, sd, min, max, quantile 95)
-* http-codes-summary : show the number of samples by HTTP code
-
-* perf-time-series-plot : plot the response time over time
-* perf-histogram : histogram of response times
-* count-bar-chart : draw a bar chart of the number of samples grouped by a factor (e.g. the label)
-* mean-time-bar-chart : draw a bar chart of the mean time grouped by a factor (e.g. the label)
-
+Here is a sample chart
 ![a sample chart](https://github.com/cfalguiere/Ptang/wiki/PtangDSLClojure/images/ResponseTimeOverTime.png)
+
+Incanter charts rely on JFreeChart. The chart viewer lets you edit some attributes (title, etc), zoom in and out, and save the chart as an image.
+
+Getting Started
+----------------
+The folder [Ptang](Ptang) is a lein project
+
+To start analyzing your test output 
+* clone the [git repository Ptang] (https://github.com/cfalguiere/Ptang)
+* from the repository root move to PtangDSL/Ptang
+
+You may run the script provided with the project 
+
+	lein run
 
 Check core.clj for a sample script
 
@@ -31,14 +41,7 @@ Check core.clj for a sample script
     	(view (mean-time-bar-chart ds :lb))
     	))
 
-To run the sample :
-* clone the project
-* move to PtangDSL/Ptang
-* run core.clj
-
-	lein run
-
-Alternatively, run a REPL and analyze the dataset interactively
+Alternatively, you may run a REPL and analyze the dataset interactively
 
 	lein repl
 	REPL started; server listening on localhost port 10603
