@@ -3,7 +3,7 @@ Ptang
 
 Analysis tool for performance test outputs (namely JMeter)
 
-Clojure DSL
+Ptang DSL
 -----------
 A set of clojure functions based on Incanter to analyse JMeter's test output, compute statistics and generate charts. 
 
