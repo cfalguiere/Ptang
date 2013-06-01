@@ -60,6 +60,7 @@
 ;; draw a bar chart of the output of the function grouped by a factor (e.g. the label)
 ;; available summary-fct are defined in $rollup documentation http://clojuredocs.org/incanter/incanter.core/$rollup
 ;; aggregator function defined in aggregators should work as well
+;; colors-key are listed in the colors variable
 (defn horizontal-bar-chart 
   ( [ds summary-fct factor ] (horizontal-bar-chart ds summary-fct factor :light-green))
   ( [ds summary-fct factor color-key] 
