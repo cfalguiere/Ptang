@@ -63,7 +63,6 @@
 (defn horizontal-bar-chart 
   ( [ds summary-fct factor ] (horizontal-bar-chart ds summary-fct factor :light-green))
   ( [ds summary-fct factor color-key] 
-    (println color-key)
 	  (doto
 	      (bar-chart factor :t :vertical false
 				 :title (str (summary-name summary-fct)  " by " (name factor))
