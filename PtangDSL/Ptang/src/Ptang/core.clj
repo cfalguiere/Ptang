@@ -25,4 +25,5 @@
     (view (mean-time-bar-chart ds :lb))
     (view (horizontal-bar-chart ds :max :lb))
     (view (horizontal-bar-chart ds q95 :lb))
+    (view (horizontal-bar-chart ds :min :lb  :light-blue))
     ))

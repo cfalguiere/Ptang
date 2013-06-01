@@ -32,3 +32,7 @@
 ;; only checks whether an non nil is returned
 (fact "horizontal-bar-chart with custom function"
       (horizontal-bar-chart  ds-fixture q95 :lb)  => truthy)
+
+;; only checks whether an non nil is returned
+(fact "horizontal-bar-chart with custom function and color"
+      (horizontal-bar-chart  ds-fixture q95 :lb (:red colors))  => truthy)
