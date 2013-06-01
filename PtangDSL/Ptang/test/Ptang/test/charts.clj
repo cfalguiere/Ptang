@@ -13,6 +13,10 @@
       (perf-time-series-plot  ds-fixture  3000)  => truthy)
 
 ;; only checks whether an non nil is returned
+(fact "perf-time-series-plot with ds"
+      (perf-time-series-plot  ds-fixture)  => truthy)
+
+;; only checks whether an non nil is returned
 (fact "perf-histogram"
       (perf-histogram  ds-fixture)  => truthy)
 

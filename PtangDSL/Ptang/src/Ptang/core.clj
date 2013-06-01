@@ -15,6 +15,7 @@
     (println "HTTP Code Summary")
     (http-codes-summary ds)
     
+    (view (perf-time-series-plot ds) )
     (view (perf-time-series-plot ds 3000) )
     (view (perf-histogram ds) )
     (view (count-bar-chart ds :lb))
