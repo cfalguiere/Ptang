@@ -1,5 +1,5 @@
 (ns ptang.stats
-  (:use [incanter.core :only [$ $where nrow with-data $data col-names $rollup]])
+  (:use [incanter.core :only [$ $where nrow with-data $data col-names $rollup dataset?]])
   (:use [incanter.stats :only [mean sd quantile]])
   (:require [clj-time.coerce :as coerce] [clj-time.core :as clj-time]))
 
@@ -46,7 +46,8 @@
      ))
 
 
-(defn pretty-print-map [title m] 
+(defn pretty-print-summary [title m] 
   (println (str title " {")) 
-  (doall (for [[k v] m] (println k v))) 
+  (cond (dataset? m) (println m)
+    :else  (doall (for [[k v] m] (println k v)))) 
   (println "}"))
