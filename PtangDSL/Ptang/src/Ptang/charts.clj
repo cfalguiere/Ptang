@@ -44,16 +44,16 @@
 ;; histogram of response times
 (defn perf-histogram [ds]
     (let [plot (histogram :t
-			  :title "Response time distribution"
-			  :nbins 15 
-			  :x-label "resp. time (ms)"
-			  :data ds )
-	  renderer (.getRenderer (.getPlot plot))]
+							  :title "Response time distribution"
+							  :nbins 15 
+							  :x-label "resp. time (ms)"
+							  :data ds )
+          renderer (.getRenderer (.getPlot plot))]
       (.setPaint renderer  (:light-blue colors)) 
       (.setDrawBarOutline renderer true)
       (.setSeriesOutlinePaint renderer 0 (:light-gray colors))
       (.setSeriesOutlineStroke renderer 0 (java.awt.BasicStroke. 2))
-    plot)
+      plot)
     )
 
 
@@ -77,20 +77,20 @@
 (defn count-bar-chart [ds factor ] ;;TODO function factorization
   (doto
       (bar-chart factor :t :vertical false
-		 :title (str "Count by " (name factor))
-		 :x-label (name factor)
-		 :y-label nil
-		 :data  ($rollup count :t factor ds))
-    (set-stroke-color (:light-green colors) :series 0) 
+			 :title (str "Count by " (name factor))
+			 :x-label (name factor)
+			 :y-label nil
+			 :data  ($rollup count :t factor ds))
+      (set-stroke-color (:light-green colors) :series 0) 
     ))
 
 ;; draw a bar chart of the mean time grouped by a factor (e.g. the label)
 (defn mean-time-bar-chart [ds factor]
   (doto
       (bar-chart factor :t :vertical false
-		 :title (str "Mean by " (name factor))
-		 :x-label (name factor)
-		 :y-label "resp. time (ms)"
-		 :data  ($rollup mean :t factor ds))
-    (set-stroke-color  (:orange colors) :series 0) 
+			 :title (str "Mean by " (name factor))
+			 :x-label (name factor)
+			 :y-label "resp. time (ms)"
+			 :data  ($rollup mean :t factor ds))
+      (set-stroke-color  (:orange colors) :series 0) 
     ))
