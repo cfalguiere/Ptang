@@ -81,5 +81,17 @@
      (coerce/to-string (:end-date summary)) => "2012-02-28T09:26:19.091Z"
      (:duration-mn summary)  => 31
      ))
-        ;;TODO filter
-
+       
+(fact "duration summary with filter"
+     (let [ds (incanter/dataset [:ts :s :rc] [ { :ts min-ts :s "true" :rc 200}
+                                          { :ts (+ min-ts 100000) :s "true" :rc 200}
+                                          {:ts max-ts :s "false" :rc 200} ]) 
+           summary (duration-summary ds success-filter)]
+     (:start-ts summary)  =>	min-ts 
+     (:end-ts summary)  =>	1330419401862
+     (:duration-ms summary)  => 100000
+     (coerce/to-string (:start-date summary))  => "2012-02-28T08:55:01.862Z" 
+     (coerce/to-string (:end-date summary)) => "2012-02-28T08:56:41.862Z" 
+     (:duration-mn summary)  => 1
+     ))
+      
