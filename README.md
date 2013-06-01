@@ -1,26 +1,25 @@
 Ptang
 =====
 
-Analysis tool for performance test outputs (namely JMeter)
+Ptang is a set of tool for performance test management and analyzes.
+
+The project doesn't stick to JMeter. However, only JMeter is available at the moment. 
+
 
 Ptang DSL
 -----------
-A set of clojure functions based on Incanter to analyse JMeter's test output, compute statistics and generate charts. 
+Ptang DSL is a set of functions based on Incanter and Clojure to analyze JMeter's test output, compute statistics and generate charts.
 
-* read-dataset : read the test output as a csv file (Incanter function)
+Examples of functions provided are listed below 
+- load a JMeter test output
+- compute summaries such as number of samples and samples rate, number and cause of errors, response time statistics (min, mean, sd, quantile 95, max)
+- generate usual charts such as response time over time, bar chart of samples counts for each sample label, ...
 
-* run-summary : show the total number of samples, number of errors and error cause (assertion, HTTP code)
-* response-time-summary : show the response time statistics (mean, sd, min, max, quantile 95)
-* http-codes-summary : show the number of samples by HTTP code
+Here is a sample chart (click to enlarge)
 
-* perf-time-series-plot : plot the response time over time
-* perf-histogram : histogram of response times
-* count-bar-chart : draw a bar chart of the number of samples grouped by a factor (e.g. the label)
-* mean-time-bar-chart : draw a bar chart of the mean time grouped by a factor (e.g. the label)
+<img src="https://github.com/cfalguiere/Ptang/wiki/PtangDSLClojure/images/ResponseTimeOverTime.png" width="250" height="190" />
 
-![a sample chart](https://github.com/cfalguiere/Ptang/wiki/PtangDSLClojure/images/ResponseTimeOverTime.png)
-
-Check core.clj for a sample script
+Here is a sample script
 
 	(defn -main [& args]
   		(let [filename "test-resources/readings.csv"
@@ -31,28 +30,10 @@ Check core.clj for a sample script
     	(view (perf-time-series-plot ds 3000) )
     	(view (mean-time-bar-chart ds :lb))
     	))
-
-To run the sample :
-* clone the project
-* move to PtangDSL/Ptang
-* run core.clj
-
-	lein run
-
-Alternatively, run a REPL and analyze the dataset interactively
-
-	lein repl
-	REPL started; server listening on localhost port 10603
-	ptang.core=> (def filename "test-resources/readings.csv")
-	#'ptang.core/filename
-	ptang.core=> (def ds (read-dataset filename :header true) )
-	#'ptang.core/ds
-	ptang.core=> (println (response-time-summary ds))
-	{:max 16696.0, :q95 2196.0, :min 17.0, :sd 998.3607924056075, :mean 982.5533694048205, :count 4066}
-	nil
-	ptang.core=> (view (mean-time-bar-chart ds :lb))
 	
-[Check full documentation](https://github.com/cfalguiere/Ptang/wiki/PtangDSL)
+Check the project's Readme and the wiki for more information
+* [PtangDSL introduction and code](PtangDSL)
+* [Check full documentation](https://github.com/cfalguiere/Ptang/wiki/PtangDSL)
 
 License
 -------
