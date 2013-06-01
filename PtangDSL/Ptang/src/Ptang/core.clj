@@ -9,14 +9,12 @@
 (defn -main [& args]
   (let [filename "test-resources/readings.csv"
 	ds (read-dataset filename :header true) ]
-    (println "Run Summary")
-    (println (run-summary ds))
-    (println "Response Time Summary")
-    (println (response-time-summary ds))
-    (println "HTTP Code Summary")
-    (http-codes-summary ds)
-    (println "Duration")
-    (println (duration-summary ds)) 
+    (view ds)
+    
+    (pretty-print-map "Run Summary" (run-summary ds))
+    (pretty-print-map "Response Time Summary" (response-time-summary ds))
+    (pretty-print-map "HTTP Code Summary" (http-codes-summary ds))
+    (pretty-print-map "Duration" (duration-summary ds)) 
     
     (view (perf-time-series-plot ds) )
     (view (perf-time-series-plot ds 3000) )

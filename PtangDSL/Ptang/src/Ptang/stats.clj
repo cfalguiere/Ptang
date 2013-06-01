@@ -44,3 +44,9 @@
      :duration-mn (clj-time/in-minutes (clj-time/interval start-date  end-date))
     }
      ))
+
+
+(defn pretty-print-map [title m] 
+  (println (str title " {")) 
+  (doall (for [[k v] m] (println k v))) 
+  (println "}"))
