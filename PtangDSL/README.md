@@ -12,7 +12,7 @@ Examples of functions provided are listed below
 
 The DSL doesn't stick to JMeter. The goal is to provide the same tool and analyzes whatever the source is. However, only JMeter source is available at the moment. 
 
-Here is a sample chart
+Here is a sample chart (click to enlarge)
 
 <img src="https://github.com/cfalguiere/Ptang/wiki/PtangDSLClojure/images/ResponseTimeOverTime.png" width="250" height="190" />
 
@@ -21,9 +21,10 @@ Incanter charts rely on JFreeChart. The chart viewer lets you edit some attribut
 Getting Started
 ----------------
 The folder [Ptang](Ptang) is a lein project
+
 TODO link to Lein getting started
 
-To start analyzing your test output 
+To start analyzing your test output :
 * clone the [git repository Ptang] (https://github.com/cfalguiere/Ptang)
 * from the repository root move to PtangDSL/Ptang
 
@@ -31,7 +32,7 @@ You may run the script provided with the project
 
 	lein run
 
-Check core.clj for a sample script
+Check [core.clj](Ptang/src/Ptang/core.clj) for the sample script
 
 	(defn -main [& args]
   		(let [filename "test-resources/readings.csv"
@@ -56,7 +57,13 @@ Alternatively, you may run a REPL and analyze the dataset interactively
 	nil
 	ptang.core=> (view (mean-time-bar-chart ds :lb))
 	
-[Check full documentation](https://github.com/cfalguiere/Ptang/wiki/PtangDSL)
+The Lein REPL inherits from the project dependencies. 
+
+Documentation
+----------------
+
+[Check full documentation](https://github.com/cfalguiere/Ptang/wiki/PtangDSL) on the wiki.
+
 
 License
 -------
