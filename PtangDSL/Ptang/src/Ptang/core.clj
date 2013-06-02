@@ -25,7 +25,6 @@
                                       {:from-start (minutes 15)  :to-end (minutes 5)  }) ]
 	    (pretty-print-summary "Response Time Summary" (response-time-summary ds asserted))
 	    (pretty-print-summary "Response Time Summary" (response-time-summary ds asserted plateau))
-	    (pretty-print-summary "Duration before errors" (duration-summary ds success)) 
     )
    
     (view (perf-time-series-plot ds) )
