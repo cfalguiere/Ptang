@@ -83,7 +83,7 @@
 			 :y-label nil
 			 :data  ($rollup count :t factor ds))
       (set-stroke-color (:light-green colors) :series 0) 
-    ))
+    )) ;;TODO use horizontal
 
 ;; draw a bar chart of the mean time grouped by a factor (e.g. the label)
 (defn mean-time-bar-chart [ds factor]
@@ -94,4 +94,4 @@
 			 :y-label "resp. time (ms)"
 			 :data  ($rollup mean :t factor ds))
       (set-stroke-color  (:orange colors) :series 0) 
-    ))
+    )) ;;TODO use horizontal
