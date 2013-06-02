@@ -10,20 +10,23 @@
 
 (defn -main [& args]
   (let [filename "test-resources/readings.csv"
-        ds (read-dataset filename :header true) 
-        plateau (interval-condition (duration-summary ds) {:from-start (minutes 15) 
-                                                :to-end (minutes 5)  }) ]
+        ds (read-dataset filename :header true) ]
     (view ds)
     
     (pretty-print-summary "Run Summary" (run-summary ds))
     (pretty-print-summary "Response Time Summary" (response-time-summary ds))
-   (pretty-print-summary "HTTP Code Summary" (http-codes-summary ds))
+    (pretty-print-summary "HTTP Code Summary" (http-codes-summary ds))
     (pretty-print-summary "Duration" (duration-summary ds)) 
 
     ;; summary with filters    
-    (pretty-print-summary "Response Time Summary" (response-time-summary ds (asserted-condition)))
-    (pretty-print-summary "Response Time Summary" (response-time-summary ds (asserted-condition) plateau))
-    (pretty-print-summary "Duration before errors" (duration-summary ds (success-condition))) 
+    (let [asserted (asserted-condition)
+          success (success-condition )
+          plateau (interval-condition (duration-summary ds) 
+                                      {:from-start (minutes 15)  :to-end (minutes 5)  }) ]
+	    (pretty-print-summary "Response Time Summary" (response-time-summary ds asserted))
+	    (pretty-print-summary "Response Time Summary" (response-time-summary ds asserted plateau))
+	    (pretty-print-summary "Duration before errors" (duration-summary ds success)) 
+    )
    
     (view (perf-time-series-plot ds) )
     (view (perf-time-series-plot ds 3000) )
