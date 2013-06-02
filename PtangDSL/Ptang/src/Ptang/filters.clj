@@ -1,6 +1,7 @@
 (ns ptang.filters
   (:use [clojure.set])
   (:use [incanter.core :only [$where]])
+  (:use [clj-time.core :only [date-time plus minus]])
   (:require [clj-time.coerce :as coerce] [clj-time.core :as clj-time]))
 
 
@@ -13,7 +14,17 @@
 (defn from-to-condition [bounds]
   { :ts 
    (into {} (for [[k v] (rename-keys bounds {:from :$gte, :to :$lte})] 
-           [k (coerce/to-long v)])) } )
+                [k (coerce/to-long v)]))} )
+
+  
+(defn interval-condition [summary bounds]
+ { :ts 
+   (into {} (for [[k v] (rename-keys bounds {:from-start :$gte, :to-end :$lte})] 
+                [k (coerce/to-long 
+                     (cond (= k :$gte) (plus (:start-date summary) v) 
+                           (= k :$lte) (minus (:end-date summary) v) 
+                           :else nil))
+                       ]))} )
   
 ;; has been received, verifies the assertion and duration is acceptable
 (defn success-condition []

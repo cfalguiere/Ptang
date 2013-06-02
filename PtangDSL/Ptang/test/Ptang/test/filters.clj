@@ -1,8 +1,9 @@
 (ns ptang.test.filters
   (:use [ptang.filters])
+  (:use [ptang.stats])
   (:use [midje.sweet])
   (:use [incanter.core :only [$ $where nrow]])
-  (:use [clj-time.core :only [date-time]])
+  (:use [clj-time.core :only [date-time minutes]])
   (:require [incanter.core :as incanter] 
             [clj-time.core :as clj-time] [clj-time.coerce :as coerce]))
 
@@ -30,6 +31,7 @@
      (let [ds (incanter/dataset [:ts :s :rc] [ { :ts 1330419301862 :s "true" :rc 200}
                                           { :ts 1330419401862 :s "true" :rc 200}
                                           {:ts 1330421179091 :s "true" :rc 200} ])
+           ;;interval-condition (from-to-condition {:from (date-time 2012 2 28 9)})  ]
            interval-condition (from-to-condition {:from (date-time 2012 2 28 9)})  ]
         (nrow ($where interval-condition ds))  => 1 ))
 
@@ -38,7 +40,7 @@
                                           { :ts 1330419401862 :s "true" :rc 200}
                                           {:ts 1330421079091 :s "true" :rc 200}
                                           {:ts 1330421179091 :s "true" :rc 200} ])
-           interval-condition (from-to-condition {:to (date-time 2012 2 28 9 25)})  ]
+           interval-condition (from-to-condition {:to (date-time 2012 2 28 9 25 0 0)})  ]
         (nrow ($where interval-condition ds))  => 3 ))
 
 
@@ -47,9 +49,18 @@
                                           { :ts 1330419401862 :s "true" :rc 200}
                                           {:ts 1330421079091 :s "true" :rc 200}
                                           {:ts 1330421179091 :s "true" :rc 200} ])
-           interval-condition (from-to-condition {:from (date-time 2012 2 28 9 ) 
-                                                :to (date-time 2012 2 28 9 25)})  ]
+           interval-condition (from-to-condition {:from (date-time 2012 2 28 9 0 0 0) 
+                                                :to (date-time 2012 2 28 9 25 0 0)})  ]
        (nrow ($where interval-condition ds))  => 1 ))
+
+(fact "interval condition"
+      (let [ds (incanter/dataset [:ts :s :rc] [ { :ts 1330318301862 :s "true" :rc 200} ;; beforeinterval
+                                          { :ts 1330419401862 :s "true" :rc 200}
+                                          {:ts 1330420079091 :s "true" :rc 200}
+                                          {:ts 1330521179091 :s "true" :rc 200} ]) ;; after interval
+           interval-condition (interval-condition (duration-summary ds) {:from-start (minutes 1) 
+                                                :to-end (minutes 1)  })  ]
+       (nrow ($where interval-condition ds))  => 2 ))
 
 
 (fact "success condition"
