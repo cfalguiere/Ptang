@@ -12,11 +12,7 @@ Examples of functions provided are listed below
 
 The DSL doesn't stick to JMeter. The goal is to provide the same tool and analyzes whatever the source is. However, only JMeter source is available at the moment. 
 
-Here is a sample chart (click to enlarge)
-
-<img src="https://github.com/cfalguiere/Ptang/wiki/PtangDSLClojure/images/ResponseTimeOverTime.png" width="250" height="190" />
-
-Incanter charts rely on JFreeChart. The chart viewer lets you edit some attributes (title, etc), zoom in and out, and save the chart as an image.
+[More information on the Wiki](https://github.com/cfalguiere/Ptang/wiki/PtangDSL).
 
 Getting Started
 ----------------
@@ -36,13 +32,10 @@ Check [core.clj](Ptang/src/Ptang/core.clj) for the sample script
 
 	(defn -main [& args]
   		(let [filename "test-resources/readings.csv"
-			ds (read-dataset filename :header true) ]
-    	(println "Response Time Summary")
-    	(println (response-time-summary ds))
-    	
-    	(view (perf-time-series-plot ds 3000) )
-    	(view (mean-time-bar-chart ds :lb))
-    	))
+				ds (read-dataset filename :header true) ]
+			(pretty-print-summary "Run Summary" (run-summary ds))  
+	    	(view (perf-time-series-plot ds) )
+	    	))
 
 Alternatively, you may run a REPL and analyze the dataset interactively
 
@@ -52,10 +45,18 @@ Alternatively, you may run a REPL and analyze the dataset interactively
 	#'ptang.core/filename
 	ptang.core=> (def ds (read-dataset filename :header true) )
 	#'ptang.core/ds
-	ptang.core=> (println (response-time-summary ds))
-	{:max 16696.0, :q95 2196.0, :min 17.0, :sd 998.3607924056075, :mean 982.5533694048205, :count 4066}
-	nil
-	ptang.core=> (view (mean-time-bar-chart ds :lb))
+	ptang.core=> (pretty-print-summary "Run Summary" (run-summary ds))
+	Run Summary {
+	:count 4066
+	:successCount 4056
+	:errorCount 10
+	:httpErrorCount 0
+	:assertionErrorCount 0
+	:durationLimitErrorCount 10
+	}
+	ptang.core=> (view (perf-time-series-plot ds) )
+
+<img src="https://github.com/cfalguiere/Ptang/wiki/PtangDSLClojure/images/ResponseTimeOverTime.png" width="250" height="190" />
 	
 The Lein REPL inherits from the project dependencies. 
 
