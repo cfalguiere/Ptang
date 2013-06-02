@@ -36,7 +36,9 @@
     (view (horizontal-bar-chart ds :sumf :min :by :lb :color :light-blue))
 
     ;; chart with filter
+    ;; for test purpose. A better implementation would be to factorize the filterd dataset
     (let [peak (interval-condition (duration-summary ds) 
                                       {:from-start (minutes 20)  :to-end (minutes 20)  }) ]
-      (view (horizontal-bar-chart  ds :sumf :count :by :lb :filter peak))) 
-    ))
+      (view (horizontal-bar-chart  ds :sumf :max :by :lb :filter peak))
+      (view (count-bar-chart ds :lb peak)))
+     ))

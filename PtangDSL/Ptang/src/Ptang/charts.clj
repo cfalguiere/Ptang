@@ -76,10 +76,12 @@
 
 
 ;; draw a bar chart of the number of samples grouped by a factor (e.g. the label)
-(defn count-bar-chart [ds factor ] 
-  (horizontal-bar-chart  ds :sumf :count :by factor :color :light-green))
+(defn count-bar-chart [ds factor & filters] 
+  (let [filter (reduce merge filters) ]
+    (horizontal-bar-chart  ds :sumf :count :by factor :color :light-green :filter filter)))
   
 ;; draw a bar chart of the mean time grouped by a factor (e.g. the label)
-(defn mean-time-bar-chart [ds factor]
-   (horizontal-bar-chart  ds :sumf :mean :by factor :color :orange))
+(defn mean-time-bar-chart [ds factor & filters]
+ (let [filter (reduce merge filters) ]
+    (horizontal-bar-chart  ds :sumf :mean :by factor :color :orange :filter filter)))
  

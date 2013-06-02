@@ -29,8 +29,20 @@
       (count-bar-chart  ds-fixture :lb)  => truthy)
 
 ;; only checks whether an non nil is returned
+(fact "count-bar-char with 1 filter"
+      (count-bar-chart  ds-fixture :lb httpSuccessCondition)  => truthy)
+
+;; only checks whether an non nil is returned
+(fact "count-bar-char with 2 filters"
+      (count-bar-chart  ds-fixture :lb httpSuccessCondition assertSuccessCondition)  => truthy)
+
+;; only checks whether an non nil is returned
 (fact "mean-time-bar-chart"
       (mean-time-bar-chart  ds-fixture :lb)  => truthy)
+
+;; only checks whether an non nil is returned
+(fact "mean-time-bar-chart with filter"
+      (mean-time-bar-chart  ds-fixture :lb httpSuccessCondition)  => truthy)
 
 ;; only checks whether an non nil is returned
 (fact "horizontal-bar-chart with max"
