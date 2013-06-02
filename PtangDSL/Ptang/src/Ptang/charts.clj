@@ -75,23 +75,10 @@
 
 
 ;; draw a bar chart of the number of samples grouped by a factor (e.g. the label)
-(defn count-bar-chart [ds factor ] ;;TODO function factorization
-  (doto
-      (bar-chart factor :t :vertical false
-			 :title (str "Count by " (name factor))
-			 :x-label (name factor)
-			 :y-label nil
-			 :data  ($rollup count :t factor ds))
-      (set-stroke-color (:light-green colors) :series 0) 
-    )) ;;TODO use horizontal
-
+(defn count-bar-chart [ds factor ] 
+  (horizontal-bar-chart ds :count factor :light-green))
+  
 ;; draw a bar chart of the mean time grouped by a factor (e.g. the label)
 (defn mean-time-bar-chart [ds factor]
-  (doto
-      (bar-chart factor :t :vertical false
-			 :title (str "Mean by " (name factor))
-			 :x-label (name factor)
-			 :y-label "resp. time (ms)"
-			 :data  ($rollup mean :t factor ds))
-      (set-stroke-color  (:orange colors) :series 0) 
-    )) ;;TODO use horizontal
+   (horizontal-bar-chart ds :mean factor :orange))
+ 
