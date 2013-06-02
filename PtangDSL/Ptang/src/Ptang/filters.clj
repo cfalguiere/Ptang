@@ -1,4 +1,5 @@
 (ns ptang.filters
+  (:use [clojure.set])
   (:use [incanter.core :only [$where]])
   (:require [clj-time.coerce :as coerce] [clj-time.core :as clj-time]))
 
@@ -9,14 +10,10 @@
  
 
 ;; example of dt : (date-time 1986 10 14 4 3 27 456)
-(defn from-condition [dt] 
-  { :ts {:$gte (coerce/to-long dt) } } )
-
-(defn to-condition [dt] 
-  { :ts {:$lte (coerce/to-long dt) } } )
-
-(defn from-to-condition [dt1 dt2] 
-  { :ts {:$gte (coerce/to-long dt1) :$lte (coerce/to-long dt2) } } )
+(defn from-to-condition [bounds]
+  { :ts 
+   (into {} (for [[k v] (rename-keys bounds {:from :$gte, :to :$lte})] 
+           [k (coerce/to-long v)])) } )
   
 ;; has been received, verifies the assertion and duration is acceptable
 (defn success-condition []

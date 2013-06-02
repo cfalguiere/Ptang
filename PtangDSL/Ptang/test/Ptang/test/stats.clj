@@ -72,7 +72,8 @@
             ]
       (response-time-summary  ds 
                          (asserted-condition) 
-                         (from-to-condition (date-time 2012 2 28 8 56 ) (date-time 2012 2 28 9 26)) )  =>
+                         (from-to-condition {:from (date-time 2012 2 28 8 56 ) 
+                                             :to (date-time 2012 2 28 9 26)}) )  =>
       {:count 3 :mean 5.0 :sd 0.0 :min 5.0 :q95 5.0 :max 5.0}))
 
 (fact "http codes summary when 2 code 200 and 1 code 500"

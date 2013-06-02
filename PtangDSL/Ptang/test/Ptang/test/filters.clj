@@ -30,7 +30,7 @@
      (let [ds (incanter/dataset [:ts :s :rc] [ { :ts 1330419301862 :s "true" :rc 200}
                                           { :ts 1330419401862 :s "true" :rc 200}
                                           {:ts 1330421179091 :s "true" :rc 200} ])
-           interval-condition (from-condition (date-time 2012 2 28 9))  ]
+           interval-condition (from-to-condition {:from (date-time 2012 2 28 9)})  ]
         (nrow ($where interval-condition ds))  => 1 ))
 
 (fact "to condition"
@@ -38,17 +38,18 @@
                                           { :ts 1330419401862 :s "true" :rc 200}
                                           {:ts 1330421079091 :s "true" :rc 200}
                                           {:ts 1330421179091 :s "true" :rc 200} ])
-           interval-condition (to-condition (date-time 2012 2 28 9 25))  ]
+           interval-condition (from-to-condition {:to (date-time 2012 2 28 9 25)})  ]
         (nrow ($where interval-condition ds))  => 3 ))
 
+
 (fact "from to condition"
-     (let [ds (incanter/dataset [:ts :s :rc] [ { :ts 1330419301862 :s "true" :rc 200}
+      (let [ds (incanter/dataset [:ts :s :rc] [ { :ts 1330419301862 :s "true" :rc 200}
                                           { :ts 1330419401862 :s "true" :rc 200}
                                           {:ts 1330421079091 :s "true" :rc 200}
                                           {:ts 1330421179091 :s "true" :rc 200} ])
-           interval-condition (from-to-condition (date-time 2012 2 28 9 ) 
-                                                 (date-time 2012 2 28 9 25))  ]
-        (nrow ($where interval-condition ds))  => 1 ))
+           interval-condition (from-to-condition {:from (date-time 2012 2 28 9 ) 
+                                                :to (date-time 2012 2 28 9 25)})  ]
+       (nrow ($where interval-condition ds))  => 1 ))
 
 
 (fact "success condition"
