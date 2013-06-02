@@ -1,6 +1,7 @@
 (ns ptang.charts
   (:use [ptang.aggregators])
-  (:use [incanter.core :only [$ $data with-data sel view $rollup]])
+  (:use [ptang.filters])
+  (:use [incanter.core :only [$ $data with-data sel view $rollup $where]])
   (:use [incanter.stats :only [mean]])
   (:use [incanter.charts :only [bar-chart histogram time-series-plot add-lines set-stroke-color set-stroke]]))
 
@@ -62,23 +63,23 @@
 ;; aggregator function defined in aggregators should work as well
 ;; colors-key are listed in the colors variable
 (defn horizontal-bar-chart 
-  ( [ds summary-fct factor ] (horizontal-bar-chart ds summary-fct factor :light-green))
-  ( [ds summary-fct factor color-key] 
-	  (doto
-	      (bar-chart factor :t :vertical false
-				 :title (str (summary-name summary-fct)  " by " (name factor))
-				 :x-label (name factor)
-				 :y-label nil
-				 :data  ($rollup summary-fct :t factor ds))
-	      (set-stroke-color (color-key colors) :series 0) 
-	    )))
+    [ds & {:keys [sumf by color filter] :or {color :light-green filter {}} } ] 
+    (let [data (apply-filter-if-any ds filter)]  
+		  (doto
+		      (bar-chart by :t :vertical false
+					 :title (str (summary-name sumf)  " by " (name by))
+					 :x-label (name by)
+					 :y-label nil
+					 :data  ($rollup sumf :t by data))
+		      (set-stroke-color (color colors) :series 0) 
+		    )))
 
 
 ;; draw a bar chart of the number of samples grouped by a factor (e.g. the label)
 (defn count-bar-chart [ds factor ] 
-  (horizontal-bar-chart ds :count factor :light-green))
+  (horizontal-bar-chart  ds :sumf :count :by factor :color :light-green))
   
 ;; draw a bar chart of the mean time grouped by a factor (e.g. the label)
 (defn mean-time-bar-chart [ds factor]
-   (horizontal-bar-chart ds :mean factor :orange))
+   (horizontal-bar-chart  ds :sumf :mean :by factor :color :orange))
  

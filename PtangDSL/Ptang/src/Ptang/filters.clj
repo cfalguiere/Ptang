@@ -38,11 +38,7 @@
 (defn received-condition []
   (merge httpSuccessCondition)) 
 
+;; utility functions
 
-
- 
-
-;;=> (plus (date-time 1986 10 14) (months 1) (weeks 3))
-;;#<DateTime 1986-12-05T00:00:00.000Z>
-;; minus
-;;#<DateTime 1986-10-14T04:03:27.456Z>
+(defn apply-filter-if-any [ds filter]
+    (cond (empty? filter) ds :else ($where filter ds) ))

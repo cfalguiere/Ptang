@@ -66,4 +66,17 @@
 (fact "success condition"
         (success-condition)  =>  {:s "true" :rc {:$in #{200 304}} :t {:$lt 10000}} )
 
+(fact "apply-filter-if-any when no filter)"
+      (let [ds (incanter/dataset [:t :s :rc] [{:t 100 :s "true" :rc 200}
+                                       {:t 200 :s "true" :rc 500}
+                                       {:t 300 :s "false" :rc 200}
+                                       {:t 20000 :s "true" :rc 200}] )]
+        (nrow (apply-filter-if-any ds {})) => 4 ))
+
+(fact "apply-filter-if-any with filter)"
+      (let [ds (incanter/dataset [:t :s :rc] [{:t 100 :s "true" :rc 200}
+                                       {:t 200 :s "true" :rc 500}
+                                       {:t 300 :s "false" :rc 200}
+                                       {:t 20000 :s "true" :rc 200}] )]
+        (nrow (apply-filter-if-any ds (success-condition)))  => 1 ))
 

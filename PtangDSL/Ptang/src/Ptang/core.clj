@@ -21,10 +21,10 @@
     ;; summary with filters    
     (let [asserted (asserted-condition)
           success (success-condition )
-          plateau (interval-condition (duration-summary ds) 
+          peak (interval-condition (duration-summary ds) 
                                       {:from-start (minutes 15)  :to-end (minutes 5)  }) ]
 	    (pretty-print-summary "Response Time Summary" (response-time-summary ds asserted))
-	    (pretty-print-summary "Response Time Summary" (response-time-summary ds asserted plateau))
+	    (pretty-print-summary "Response Time Summary" (response-time-summary ds asserted peak))
     )
    
 ;    (view (perf-time-series-plot ds) )
@@ -32,6 +32,11 @@
     (view (perf-histogram ds) )
     (view (count-bar-chart ds :lb))
     (view (mean-time-bar-chart ds :lb))
-;    (view (horizontal-bar-chart ds q95 :lb))
-;    (view (horizontal-bar-chart ds :min :lb  :light-blue))
+    (view (horizontal-bar-chart ds :sumf q95 :by :lb))
+    (view (horizontal-bar-chart ds :sumf :min :by :lb :color :light-blue))
+
+    ;; chart with filter
+    (let [peak (interval-condition (duration-summary ds) 
+                                      {:from-start (minutes 20)  :to-end (minutes 20)  }) ]
+      (view (horizontal-bar-chart  ds :sumf :count :by :lb :filter peak))) 
     ))

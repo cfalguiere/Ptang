@@ -1,8 +1,11 @@
 (ns ptang.test.charts
-  (:use [ptang.aggregators])
   (:use [ptang.charts])
+  (:use [ptang.aggregators])
+  (:use [ptang.filters])
+  (:use [ptang.stats])
   (:use [midje.sweet])
   (:use [incanter.io :only [read-dataset]])
+  (:use [clj-time.core :only [date-time minutes]])
   (:require [incanter.core :as incanter]))
 
 ;; fixtures
@@ -26,13 +29,23 @@
       (count-bar-chart  ds-fixture :lb)  => truthy)
 
 ;; only checks whether an non nil is returned
+(fact "mean-time-bar-chart"
+      (mean-time-bar-chart  ds-fixture :lb)  => truthy)
+
+;; only checks whether an non nil is returned
 (fact "horizontal-bar-chart with max"
-      (horizontal-bar-chart  ds-fixture :max :lb)  => truthy)
+      (horizontal-bar-chart ds-fixture :sumf :max :by :lb)  => truthy)
 
 ;; only checks whether an non nil is returned
 (fact "horizontal-bar-chart with custom function"
-      (horizontal-bar-chart  ds-fixture q95 :lb)  => truthy)
+      (horizontal-bar-chart   ds-fixture :sumf q95 :by :lb)  => truthy)
 
 ;; only checks whether an non nil is returned
 (fact "horizontal-bar-chart with custom function and color"
-      (horizontal-bar-chart  ds-fixture q95 :lb :red)  => truthy)
+      (horizontal-bar-chart  ds-fixture :sumf q95 :by :lb :color :red)  => truthy)
+
+;; only checks whether an non nil is returned
+(fact "horizontal-bar-chart with custom function and color"
+      (let [ peak (interval-condition (duration-summary ds-fixture) 
+                                          {:from-start (minutes 20) :to-end (minutes 20)  })  ]
+      (horizontal-bar-chart  ds-fixture :sumf q95 :by :lb :filter peak)  => truthy))
