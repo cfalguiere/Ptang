@@ -16,54 +16,10 @@ The DSL doesn't stick to JMeter. The goal is to provide the same tool and analyz
 
 Getting Started
 ----------------
-The folder [Ptang](Ptang) is a lein project
+Ptang is a Leiningen project. However, an uberjar is also provided and you may use it without Leiningen.
 
-TODO link to Lein getting started
+[Getting Started](DSLgettingStarted)
 
-To start analyzing your test output :
-* clone the [git repository Ptang] (https://github.com/cfalguiere/Ptang)
-* from the repository root move to PtangDSL/Ptang
-
-You may run the script provided with the project 
-
-	lein run
-
-Check [core.clj](Ptang/src/Ptang/core.clj) for the sample script
-
-	(defn -main [& args]
-  		(let [filename "test-resources/readings.csv"
-				ds (read-dataset filename :header true) ]
-			(pretty-print-summary "Run Summary" (run-summary ds))  
-	    	(view (perf-time-series-plot ds) )
-	    	))
-
-Alternatively, you may run a REPL and analyze the dataset interactively
-
-	lein repl
-	REPL started; server listening on localhost port 10603
-	ptang.core=> (def filename "test-resources/readings.csv")
-	#'ptang.core/filename
-	ptang.core=> (def ds (read-dataset filename :header true) )
-	#'ptang.core/ds
-	ptang.core=> (pretty-print-summary "Run Summary" (run-summary ds))
-	Run Summary {
-	:count 4066
-	:successCount 4056
-	:errorCount 10
-	:httpErrorCount 0
-	:assertionErrorCount 0
-	:durationLimitErrorCount 10
-	}
-	ptang.core=> (view (perf-time-series-plot ds) )
-
-<img src="https://github.com/cfalguiere/Ptang/wiki/PtangDSLClojure/images/ResponseTimeOverTime.png" width="250" height="190" />
-	
-The Lein REPL inherits from the project dependencies. 
-
-Documentation
-----------------
-
-[Check full documentation](https://github.com/cfalguiere/Ptang/wiki/PtangDSL) on the wiki.
 
 
 License
