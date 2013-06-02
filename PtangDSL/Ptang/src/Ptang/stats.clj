@@ -7,7 +7,7 @@
 ;; show the total number of samples, number of errors and error cause (assertion, http code)
 (defn run-summary [ds]
   (let [ 	allCount (nrow ds)
-        successCount (success-filter ds)] 
+        successCount ($where (success-condition) ds) ] 
   { :count allCount
    :successCount  (nrow successCount) 
    :errorCount (- allCount (nrow successCount)) 
@@ -23,9 +23,10 @@
 		  (zipmap [ :count :mean :sd :min :q95 :max]
 			  (flatten (with-data ($ :t ds)
 			    [ (count $data) (mean $data) (sd $data) (quantile $data :probs[0 0.95 1]) ] )))) 
-  ( [ds filter-fct & more] 
-    (println (str "response-time-summary:  applying filter " filter-fct more))
-    (response-time-summary  (filter-fct ds (first more) ) ))) ;; TODO mouaih ???
+  ([ds & filters] 
+    (let [filter (reduce merge filters) ]
+      (println (str "response-time-summary:  applying filter " filter))
+      (response-time-summary  ($where filter ds) ))))
 
 ;; show the number of samples by HTTP code
 (defn http-codes-summary [ds]
@@ -47,9 +48,10 @@
 		   :end-date end-date
 	     :duration-mn (clj-time/in-minutes (clj-time/interval start-date  end-date))
 	    }))
-  ([ds filter-fct] 
-    (println (str "duration-summary :  applying filter " filter-fct))
-    (duration-summary   (filter-fct ds) )))
+  ([ds & filters] 
+    (let [filter (reduce merge filters) ]
+      (println (str "duration-summary :  applying filter " filter))
+      (duration-summary  ($where filter ds) ))))
       
 
 

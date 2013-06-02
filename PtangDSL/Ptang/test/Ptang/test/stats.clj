@@ -2,6 +2,7 @@
   (:use [ptang.filters])
   (:use [ptang.stats])
   (:use [midje.sweet])
+  (:use [incanter.core :only [$ $where nrow]])
   (:use [clj-time.core :only [date-time]])
   (:require [incanter.core :as incanter] [clj-time.coerce :as coerce]))
 
@@ -56,10 +57,10 @@
 
 (fact "response time summary with filter when 3 lines and 1 error"
       (let [ds (incanter/dataset [:t :s :rc] [{:t 5 :s "true" :rc 200} 
-                                              {:t 5 :s "true" :rc 200}
-                                              {:t 0 :s "false" :rc 200}] )]
-	(response-time-summary ds asserted-filter)  =>
-	{:count 2 :mean 5.0 :sd 0.0 :min 5.0 :q95 5.0 :max 5.0}))
+	                                              {:t 5 :s "true" :rc 200}
+	                                              {:t 0 :s "false" :rc 200}] )]
+        (response-time-summary ds (asserted-condition))  =>
+        {:count 2 :mean 5.0 :sd 0.0 :min 5.0 :q95 5.0 :max 5.0}))
 
 (fact "response time summary with filter and interval"
     (let [ds (incanter/dataset [:ts :s :rc :t] [ { :ts 1330419301862 :s "true" :rc 200 :t 3000} ;;before interval
@@ -68,10 +69,11 @@
                                           { :ts 1330419601862 :s "true" :rc 200 :t 5}
                                           {:ts 1330421079091 :s "true" :rc 200 :t 5}
                                           {:ts 1330421179091 :s "true" :rc 200 :t 100} ]) ;;after interval
-           interval (from-to-condition (date-time 2012 2 28 8 56 ) 
-                                                 (date-time 2012 2 28 9 26))  ]
-	(response-time-summary  ds asserted-filter interval)  =>
-	{:count 3 :mean 5.0 :sd 0.0 :min 5.0 :q95 5.0 :max 5.0}))
+            ]
+      (response-time-summary  ds 
+                         (asserted-condition) 
+                         (from-to-condition (date-time 2012 2 28 8 56 ) (date-time 2012 2 28 9 26)) )  =>
+      {:count 3 :mean 5.0 :sd 0.0 :min 5.0 :q95 5.0 :max 5.0}))
 
 (fact "http codes summary when 2 code 200 and 1 code 500"
       (let [ds (incanter/dataset [:rc]
@@ -79,8 +81,8 @@
 				   {:rc 200}
 				   {:rc 500}])
 	    result (http-codes-summary ds)]
-	(incanter/$ :count (incanter/$where {:code 200} result))  => 2
-	(incanter/$ :count (incanter/$where {:code 500} result))  => 1
+	($ :count ($where {:code 200} result))  => 2
+	($ :count ($where {:code 500} result))  => 1
 	))
 
 
@@ -100,7 +102,7 @@
      (let [ds (incanter/dataset [:ts :s :rc] [ { :ts min-ts :s "true" :rc 200}
                                           { :ts (+ min-ts 100000) :s "true" :rc 200}
                                           {:ts max-ts :s "false" :rc 200} ]) 
-           summary (duration-summary ds success-filter)]
+           summary (duration-summary ds (success-condition))]
      (:start-ts summary)  =>	min-ts 
      (:end-ts summary)  =>	1330419401862
      (:duration-ms summary)  => 100000
