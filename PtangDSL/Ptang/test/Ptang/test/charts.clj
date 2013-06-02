@@ -13,16 +13,28 @@
 (def ds-fixture (read-dataset filename :header true) )
   
 ;; only checks whether an non nil is returned
-(fact "perf-time-series-plot with ds and threshold"
-      (perf-time-series-plot  ds-fixture  3000)  => truthy)
+(fact "perf-time-series-plot-with-threshold  with ds and threshold"
+      (perf-time-series-plot-with-threshold   ds-fixture  3000)  => truthy)
+
+;; only checks whether an non nil is returned
+(fact "perf-time-series-plot-with-threshold  with ds and threshold and filter"
+      (perf-time-series-plot-with-threshold   ds-fixture  3000 httpSuccessCondition)  => truthy)
 
 ;; only checks whether an non nil is returned
 (fact "perf-time-series-plot with ds"
       (perf-time-series-plot  ds-fixture)  => truthy)
 
 ;; only checks whether an non nil is returned
+(fact "perf-time-series-plot with ds and filter"
+      (perf-time-series-plot  ds-fixture httpSuccessCondition)  => truthy)
+
+;; only checks whether an non nil is returned
 (fact "perf-histogram"
       (perf-histogram  ds-fixture)  => truthy)
+
+;; only checks whether an non nil is returned
+(fact "perf-histogram with filter"
+      (perf-histogram  ds-fixture httpSuccessCondition)  => truthy)
 
 ;; only checks whether an non nil is returned
 (fact "count-bar-chart"

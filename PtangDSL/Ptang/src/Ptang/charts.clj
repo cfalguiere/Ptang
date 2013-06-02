@@ -13,9 +13,11 @@
 
 ;; plot the response time over time
 ;; second parameter let draw a line at the specified response time
-(defn perf-time-series-plot-with-threshold  [ds thresholdMs] 
- 	  (def ts (sel ds :cols :ts))
-	  (doto  (time-series-plot :ts :t :data ds :title "Response time over time"
+(defn perf-time-series-plot-with-threshold  [ds thresholdMs & filters] ;; TODO factorization
+	 (let [filter (reduce merge filters) 
+	       data (apply-filter-if-any ds filter)
+        ts (sel data  :cols :ts) ]
+	  (doto  (time-series-plot :ts :t :data data :title "Response time over time"
 				   :x-label "time" :y-label "resp. time (ms)"
 				   :legend true :series-label "duration ms"
 				   )
@@ -23,32 +25,35 @@
 	    (set-stroke :width 1) 
       (add-lines  ts (repeat thresholdMs) :series-label "threshold")
 			(set-stroke :dataset 1 :width 2)
-			(set-stroke-color java.awt.Color/red :dataset 1) ))
-
+			(set-stroke-color java.awt.Color/red :dataset 1) )))
+;; TODO documentation 
 
 ;; plot the response time over time
 ;; may have an optional second parameter
 (defn perf-time-series-plot 
-  ( [ds thresholdMs] (perf-time-series-plot-with-threshold ds thresholdMs))
-  ( [ds] 
-	  (def ts (sel ds :cols :ts))
-	  (doto  (time-series-plot :ts :t :data ds :title "Response time over time"
-				   :x-label "time" :y-label "resp. time (ms)"
-				   :legend true :series-label "duration ms"
-				   )
-	    (set-stroke-color (:light-blue colors)) 
-	    (set-stroke :width 1) 
- 	    )))
+  ( [ds & filters] 
+	 (let [filter (reduce merge filters) 
+	       data (apply-filter-if-any ds filter)
+        ts (sel data  :cols :ts) ]
+		  (doto  (time-series-plot :ts :t :data data :title "Response time over time"
+					   :x-label "time" :y-label "resp. time (ms)"
+					   :legend true :series-label "duration ms"
+					   )
+		    (set-stroke-color (:light-blue colors)) 
+		    (set-stroke :width 1) 
+	 	    ))))
 
  
 
 ;; histogram of response times
-(defn perf-histogram [ds]
-    (let [plot (histogram :t
+(defn perf-histogram [ds & filters]
+ (let [filter (reduce merge filters) 
+       data (apply-filter-if-any ds filter)
+       plot (histogram :t
 							  :title "Response time distribution"
 							  :nbins 15 
 							  :x-label "resp. time (ms)"
-							  :data ds )
+							  :data data )
           renderer (.getRenderer (.getPlot plot))]
       (.setPaint renderer  (:light-blue colors)) 
       (.setDrawBarOutline renderer true)

@@ -28,7 +28,7 @@
     )
    
 ;    (view (perf-time-series-plot ds) )
-    (view (perf-time-series-plot ds 3000) )
+    (view (perf-time-series-plot-with-threshold  ds 3000) )
     (view (perf-histogram ds) )
     (view (count-bar-chart ds :lb))
     (view (mean-time-bar-chart ds :lb))
@@ -39,6 +39,8 @@
     ;; for test purpose. A better implementation would be to factorize the filterd dataset
     (let [peak (interval-condition (duration-summary ds) 
                                       {:from-start (minutes 20)  :to-end (minutes 20)  }) ]
-      (view (horizontal-bar-chart  ds :sumf :max :by :lb :filter peak))
+     (view (perf-histogram ds peak) )
+     (view (perf-time-series-plot-with-threshold  ds 3000 peak) )
+    (view (horizontal-bar-chart  ds :sumf :max :by :lb :filter peak))
       (view (count-bar-chart ds :lb peak)))
      ))
