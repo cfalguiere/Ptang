@@ -5,7 +5,10 @@
   (:use [incanter.stats :only [mean sd quantile]])
   (:require [clj-time.coerce :as coerce] [clj-time.core :as clj-time]))
 
-;; show the total number of samples, number of errors and error cause (assertion, http code)
+
+;; returns a map of run information (excepted duration, check duration-summary)
+;; total number of samples, number of errors and error cause (assertion, http code)
+;; may use an optional list of filters (check filters.clj)
 (defn run-summary 
 	 ([ds] 
 		  (let [allCount (nrow ds)
@@ -20,8 +23,8 @@
 	  ([ds & filters] 
 	    (filter-and-execute run-summary ds filters)))
 
-;; show the response time statistics (mean, sd, min, max, quantile 95)
-;; may use an optional filter (check filters.clj)
+;; returns a map of response time statistics (mean, sd, min, max, quantile 95)
+;; may use an optional list of filters (check filters.clj)
 (defn response-time-summary 
 	  ([ds] 
 			  (zipmap [ :count :mean :sd :min :q95 :max]
@@ -30,7 +33,8 @@
 	  ([ds & filters] 
 	    (filter-and-execute response-time-summary ds filters)))
 
-;; show the number of samples by HTTP code
+;; returns a dataset consisting of the number of samples by HTTP code
+;; may use an optional list of filters (check filters.clj)
 (defn http-codes-summary 
 	  ([ds]
 	    (col-names ($rollup count :t :rc ds) [:code :count]))
@@ -38,6 +42,7 @@
 	    (filter-and-execute http-codes-summary ds filters)))
     
 ;; returns a map of duration information (start time, end time, duration in s, duration in huma format)
+;; may use an optional list of filters (check filters.clj)
 (defn duration-summary 
 	  ([ds]
 		  ( let [ timestamps ($ :ts ds)
@@ -56,7 +61,9 @@
 	  ([ds & filters] 
 	    (filter-and-execute duration-summary ds filters)))
       
-
+;; pretty print summary information
+;; datasets yield regular dataset output (a table)
+;; map yield a map output with each key-value pair on a separate line
 (defn pretty-print-summary [title m] 
   (println (str title " {")) 
   (cond (dataset? m) (println m)
