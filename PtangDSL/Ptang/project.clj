@@ -1,4 +1,4 @@
-(defproject ptang "0.1.0-SNAPSHOT"
+(defproject ptang "0.1.1-SNAPSHOT"
   :description "Analysis tool for performance test results"
   :dependencies [[org.clojure/clojure "1.3.0"]
 		 [incanter "1.3.0"] ;; statistics
