@@ -78,7 +78,10 @@
 					 :data  ($rollup sumf :t by data))
 		      (set-stroke-color (color colors) :series 0) 
 		    )))
-
+;; TODO pre
+;;(defn foo [{:keys [a b c]}]
+;;  {:pre [(not (nil? c))]}
+;;  (list a b c))
 
 ;; draw a bar chart of the number of samples grouped by a factor (e.g. the label)
 (defn count-bar-chart [ds factor & filters] 
