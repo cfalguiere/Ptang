@@ -4,7 +4,7 @@
   (:use [ptang.charts]) 
   (:use [ptang.filters]) 
   (:use [ptang.aggregators]) 
-  (:use [incanter.core :only [view]])
+  (:use [incanter.core :only [view $ $where]])
   (:use [incanter.io :only [read-dataset]])
   (:use [clj-time.core :only [minutes]]))
 

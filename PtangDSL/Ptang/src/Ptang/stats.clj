@@ -1,8 +1,9 @@
 (ns ptang.stats
   (:use [ptang.filters])
   (:use [ptang.internal.common-stats])
-  (:use [incanter.core :only [$ $where nrow with-data $data col-names $rollup dataset?]])
+  (:use [incanter.core :only [$ $where $order nrow with-data $data col-names $rollup dataset?]])
   (:use [incanter.stats :only [mean sd quantile]])
+  (:require [clojure.core :as core])
   (:require [clj-time.coerce :as coerce] [clj-time.core :as clj-time]))
 
 
@@ -60,7 +61,23 @@
 		    }))
 	  ([ds & filters] 
 	    (filter-and-execute duration-summary ds filters)))
-      
+
+(defn select-first
+  { :doc "first reading of the dataset and return a set or a dataset"}
+  ([ds] (core/first (:rows ds)))
+  ([n ds] ($ (range n) :all ds)))
+  
+(defn select-last
+  { :doc "last reading of the dataset"}
+  [ds] (core/last (:rows ds)))
+
+(defn top
+  { :doc "take first 5 sorted by :t in desc order"}
+  [ds] (select-first 5 ($order :t :desc ds)))
+
+
+  
+
 ;; pretty print summary information
 ;; datasets yield regular dataset output (a table)
 ;; map yield a map output with each key-value pair on a separate line
