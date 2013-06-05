@@ -3,7 +3,6 @@
   (:use [ptang.internal.common-stats])
   (:use [incanter.core :only [$ $where $order nrow with-data $data col-names $rollup dataset?]])
   (:use [incanter.stats :only [mean sd quantile]])
-  (:require [clojure.core :as core])
   (:require [clj-time.coerce :as coerce] [clj-time.core :as clj-time]))
 
 
@@ -63,17 +62,22 @@
 	    (filter-and-execute duration-summary ds filters)))
 
 (defn select-first
-  { :doc "first reading of the dataset and return a set or a dataset"}
-  ([ds] (core/first (:rows ds)))
-  ([n ds] ($ (range n) :all ds)))
+  { :doc "first readings of the dataset and return a set or a dataset"}
+  ([ds]  
+    (first (:rows ds)))
+  ([ds & options]
+    (let [ {n :n, filter :filter, :or {n 1, filter {}}} options
+          filtered-ds (apply-filter-if-any ds filter) ]
+      (cond (= n 1) (first (:rows filtered-ds))
+        :else ($ (range n) :all filtered-ds)))))
   
 (defn select-last
   { :doc "last reading of the dataset"}
-  [ds] (core/last (:rows ds)))
+  [ds] (last (:rows ds)))
 
 (defn top
   { :doc "take first 5 sorted by :t in desc order"}
-  [ds] (select-first 5 ($order :t :desc ds)))
+  [ds] (select-first  ($order :t :desc ds) :n 5 ))
 
 
   

@@ -120,6 +120,36 @@
      (:ts (select-first ds))  =>	min-ts 
      ))
 
+(fact "select first reading of ds with filter and n"
+      (let [ds (incanter/dataset [:ts :t :s :rc] [ { :ts min-ts :s "false" :rc 200 :t 1}
+                                          { :ts (+ min-ts 100000) :s "true" :rc 200 :t 2}
+                                          {:ts max-ts :s "false" :rc 200 :t 3} ]) 
+          output (select-first  ds :n 1 :filter (asserted-condition))
+           ]
+     (:ts output)  =>	(+ min-ts 100000)
+     ))
+
+(fact "select first reading of ds with filter"
+     (let [ds (incanter/dataset [:ts :t :s :rc] [ { :ts min-ts :s "false" :rc 200 :t 1}
+                                          { :ts (+ min-ts 100000) :s "true" :rc 200 :t 2}
+                                          {:ts max-ts :s "false" :rc 200 :t 3} ]) 
+          output (select-first  ds :filter (asserted-condition))
+           ]
+     (:ts output)  =>	(+ min-ts 100000)
+     ))
+
+
+
+(fact "select first n readings"
+     (let [ds (incanter/dataset [:ts :t :s :rc] [ { :ts min-ts :s "true" :rc 200 :t 1}
+                                          { :ts (+ min-ts 100000) :s "true" :rc 200 :t 2}
+                                          {:ts max-ts :s "false" :rc 200 :t 3} ]) 
+           output (select-first ds :n 2)  
+           ]
+     (nrow output)  =>	2
+     ($ 0 :ts output)  => min-ts
+     ))
+
 (fact "select last reading of ds"
      (let [ds (incanter/dataset [:ts :t :s :rc] [ { :ts min-ts :s "true" :rc 200 :t 1}
                                           { :ts (+ min-ts 100000) :s "true" :rc 200 :t 2}
@@ -129,16 +159,6 @@
      ))
       
 
-(fact "select first n readings"
-     (let [ds (incanter/dataset [:ts :t :s :rc] [ { :ts min-ts :s "true" :rc 200 :t 1}
-                                          { :ts (+ min-ts 100000) :s "true" :rc 200 :t 2}
-                                          {:ts max-ts :s "false" :rc 200 :t 3} ]) 
-           output (select-first 2 ds)  
-           ]
-     (nrow output)  =>	2
-     ($ 0 :ts output)  => min-ts
-     ))
-      
 ;; top n
 (fact "top n of a dataset default to sorted by :t and size is 5 and order desc"
      (let [ds (incanter/dataset [:ts :t :s :rc] [ { :ts min-ts :s "true" :rc 200 :t 6}
