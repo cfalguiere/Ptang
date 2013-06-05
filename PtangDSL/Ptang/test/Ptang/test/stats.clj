@@ -159,8 +159,7 @@
      ))
       
 
-;; top n
-(fact "top n of a dataset default to sorted by :t and size is 5 and order desc"
+(fact "top 5 of a dataset sorted by :t and order desc"
      (let [ds (incanter/dataset [:ts :t :s :rc] [ { :ts min-ts :s "true" :rc 200 :t 6}
                                           { :ts (+ min-ts 100000) :s "true" :rc 200 :t 2}
                                           { :ts (+ min-ts 200000) :s "true" :rc 200 :t 7}
@@ -175,6 +174,74 @@
      (nrow output)  =>	5
      ($ 0 :t output)  => 9
      ($ 1 :t output)  => 8
+     ))
+      
+(fact "top 5 of a dataset sorted by :t and order asc"
+     (let [ds (incanter/dataset [:ts :t :s :rc] [ { :ts min-ts :s "true" :rc 200 :t 6}
+                                          { :ts (+ min-ts 100000) :s "true" :rc 200 :t 2}
+                                          { :ts (+ min-ts 200000) :s "true" :rc 200 :t 7}
+                                          { :ts (+ min-ts 300000) :s "true" :rc 200 :t 1}
+                                          { :ts (+ min-ts 400000) :s "true" :rc 200 :t 9}
+                                          { :ts (+ min-ts 500000) :s "true" :rc 200 :t 3}
+                                          { :ts (+ min-ts 600000) :s "true" :rc 200 :t 5}
+                                          { :ts (+ min-ts 700000) :s "true" :rc 200 :t 4}
+                                          {:ts(+ min-ts 800000) :s "false" :rc 200 :t 8} ]) 
+           output (top ds :order :asc)  
+           ]
+     (nrow output)  =>	5
+     ($ 0 :t output)  => 1
+     ($ 1 :t output)  => 2
+     ))
+      
+(fact "top 4 of a dataset sorted by :t and order desc"
+     (let [ds (incanter/dataset [:ts :t :s :rc] [ { :ts min-ts :s "true" :rc 200 :t 6}
+                                          { :ts (+ min-ts 100000) :s "true" :rc 200 :t 2}
+                                          { :ts (+ min-ts 200000) :s "true" :rc 200 :t 7}
+                                          { :ts (+ min-ts 300000) :s "true" :rc 200 :t 1}
+                                          { :ts (+ min-ts 400000) :s "true" :rc 200 :t 9}
+                                          { :ts (+ min-ts 500000) :s "true" :rc 200 :t 3}
+                                          { :ts (+ min-ts 600000) :s "true" :rc 200 :t 5}
+                                          { :ts (+ min-ts 700000) :s "true" :rc 200 :t 4}
+                                          {:ts(+ min-ts 800000) :s "false" :rc 200 :t 8} ]) 
+           output (top ds :n 4)  
+           ]
+     (nrow output)  =>	4
+     ($ 0 :t output)  => 9
+     ($ 1 :t output)  => 8
+     ))
+      
+(fact "top 5 of a dataset sorted by :lt and order desc"
+     (let [ds (incanter/dataset [:ts :t :lt :s :rc] [ { :ts min-ts :s "true" :rc 200 :lt 17 :t 6}
+                                          { :ts (+ min-ts 100000) :s "true" :rc 200 :lt 14 :t 2}
+                                          { :ts (+ min-ts 200000) :s "true" :rc 200 :lt 13 :t 7}
+                                          { :ts (+ min-ts 300000) :s "true" :rc 200 :lt 19 :t 1}
+                                          { :ts (+ min-ts 400000) :s "true" :rc 200 :lt 11 :t 9}
+                                          { :ts (+ min-ts 500000) :s "true" :rc 200 :lt 18 :t 3}
+                                          { :ts (+ min-ts 600000) :s "true" :rc 200 :lt 15 :t 5}
+                                          { :ts (+ min-ts 700000) :s "true" :rc 200 :lt 16 :t 4}
+                                          {:ts(+ min-ts 800000) :s "false" :rc 200 :lt 12 :t 8} ]) 
+           output (top ds :col :lt)  
+           ]
+     (nrow output)  =>	5
+     ($ 0 :lt output)  => 19
+     ($ 1 :lt output)  => 18
+     ))
+      
+(fact "top 5 of a dataset sorted by :t with filter and order desc"
+     (let [ds (incanter/dataset [:ts :t :lt :s :rc] [ { :ts min-ts :s "true" :rc 200 :lt 17 :t 6}
+                                          { :ts (+ min-ts 100000) :s "true" :rc 200 :lt 14 :t 2}
+                                          { :ts (+ min-ts 200000) :s "true" :rc 200 :lt 13 :t 7}
+                                          { :ts (+ min-ts 300000) :s "true" :rc 200 :lt 19 :t 1}
+                                          { :ts (+ min-ts 400000) :s "true" :rc 200 :lt 11 :t 9}
+                                          { :ts (+ min-ts 500000) :s "true" :rc 200 :lt 18 :t 3}
+                                          { :ts (+ min-ts 600000) :s "true" :rc 200 :lt 15 :t 5}
+                                          { :ts (+ min-ts 700000) :s "true" :rc 200 :lt 16 :t 4}
+                                          {:ts(+ min-ts 800000) :s "false" :rc 200 :lt 12 :t 8} ]) 
+           output (top ds :filter (asserted-condition))  
+           ]
+     (nrow output)  =>	5
+     ($ 0 :t output)  => 9
+     ($ 1 :t output)  => 7
      ))
       
 

@@ -76,9 +76,13 @@
   [ds] (last (:rows ds)))
 
 (defn top
-  { :doc "take first 5 sorted by :t in desc order"}
-  [ds] (select-first  ($order :t :desc ds) :n 5 ))
-
+  { :doc "take first :n sorted by col in :desc/:asc order.May have a filter"}
+  ([ds] (select-first  ($order :t :desc ds) :n 5 ))
+  ([ds & options]
+    (let [ {n :n, filter :filter, col :col, order :order
+            :or {n 5, filter {}, col :t, order :desc}} options
+          filtered-ds (apply-filter-if-any ds filter) ]
+      (select-first  ($order col order filtered-ds ) :n n ))))
 
   
 
